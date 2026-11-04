@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Champions Predictor 2026/27</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080f23;color:#f3f6ff;font-family:Arial,sans-serif}
+header{background:#101c39;padding:20px 6%;border-bottom:1px solid #26375b}
+.logo{font-size:24px;font-weight:bold;color:#fff}
+.logo span{color:#63a6ff}
+small,.muted{color:#9aaac8}
+main{max-width:1100px;margin:auto;padding:30px 20px}
+.hero{background:linear-gradient(120deg,#173c9b,#101a3b);padding:35px;border-radius:16px;margin-bottom:25px}
+.hero h1{font-size:34px;margin:10px 0}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:22px}
+.panel{background:#111d38;border:1px solid #263658;border-radius:14px;padding:20px;margin-bottom:20px}
+.match{background:#192846;padding:18px;border-radius:12px;margin:14px 0}
+.teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:18px 0;font-weight:bold}
+.teams span{flex:1;text-align:center}
+input{background:#0b1530;border:1px solid #465a80;border-radius:7px;color:white;padding:10px;min-width:0}
+.score{width:49px;text-align:center;font-size:18px}
+button{background:#2463eb;border:0;color:white;padding:11px 17px;border-radius:8px;cursor:pointer;font-weight:bold}
+button:hover{background:#3979ff}
+button:disabled{opacity:.5;cursor:not-allowed}
+.full{width:100%}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #283758;gap:10px}
+.tag{background:#203b75;color:#a9c9ff;padding:5px 10px;border-radius:20px;font-size:12px}
+.notice{color:#ffcf75;font-size:13px}
+#mensaje{margin:15px 0;color:#8cf0ba}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.hero h1{font-size:26px}.teams{font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">⚽ CHAMPIONS <span>PREDICTOR</span></div>
+<small>UEFA Champions League 2026/27 · Proyecto académico</small>
+</header>
+<main>
+<section class="hero">
+<div class="tag" style="display:inline-block">TEMPORADA 2026/27</div>
+<h1>Predice. Compite. Gana puntos.</h1>
+<p>Pronostica los resultados, participa con tus amigos y lidera el ranking.</p>
+<p class="notice">Partidos ficticios para demostración. Sin apuestas ni dinero real.</p>
+</section>
+
+<div class="grid">
+<section>
+<div class="panel">
+<h2>🏟️ Próximos partidos</h2>
+<p class="muted">Elige tu marcador y guarda la predicción.</p>
+<label>Participante:
+<select id="usuario" style="background:#192846;color:white;padding:9px;border-radius:7px">
+<option value="1">Kevin</option>
+<option value="2">Luis</option>
+<option value="3">Ana</option>
+</select>
+</label>
+<div id="partidos">Cargando partidos...</div>
+<div id="mensaje"></div>
+</div>
+</section>
+
+<aside>
+<div class="panel">
+<h2>🏆 Ranking general</h2>
+<div id="ranking">Cargando...</div>
+</div>
+<div class="panel">
+<h2>👥 Salas privadas</h2>
+<p class="muted">Crea una sala para competir con tus amigos.</p>
+<input id="nombreSala" placeholder="Nombre de la sala" style="width:100%;margin-bottom:10px">
+<button class="full" onclick="crearSala()">Crear sala</button>
+<div id="salas" style="margin-top:15px"></div>
+</div>
+<div class="panel">
+<h3>📊 Reglas de puntos</h3>
+<p>🎯 Marcador exacto: 5 pts</p>
+<p>⚽ Ganador correcto: 3 pts</p>
+<p>📈 Diferencia correcta: 2 pts</p>
+<p>🔥 Racha de 3: +2 pts</p>
+<p>⏰ Más de 24 horas: +1 pt</p>
+</div>
+</aside>
+</div>
+</main>
+
+<script>
+const api='/api';
+const escapar=s=>String(s).replace(/[&<>"']/g,c=>({
+'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+async function solicitud(ruta,opciones){
+const r=await fetch(api+ruta,opciones);
+const d=await r.json();
+if(!r.ok)throw new Error(d.error||'Error en la solicitud');
+return d;
+}
+
+async function cargarPartidos(){
+const datos=await solicitud('/partidos');
+document.getElementById('partidos').innerHTML=datos.map(p=>{
+const abierto=Date.now()<new Date(p.fecha).getTime();
+return `<div class="match">
+<div class="row"><span class="tag">Partido #${p.id}</span>
+<small>${new Date(p.fecha).toLocaleString('es-PE')}</small></div>
+<div class="teams">
+<span>${escapar(p.local)}</span>
+<input class="score" type="number" min="0" max="30" value="1" id="local${p.id}">
+<b>:</b>
+<input class="score" type="number" min="0" max="30" value="1" id="visita${p.id}">
+<span>${escapar(p.visitante)}</span>
+</div>
+<button class="full" ${abierto?'':'disabled'}
+onclick="guardarPrediccion(${p.id})">
+${abierto?'Guardar predicción':'Predicciones cerradas'}
+</button>
+</div>`;
+}).join('');
+}
+
+async function guardarPrediccion(id){
+try{
+const datos={
+usuarioId:Number(document.getElementById('usuario').value),
+partidoId:id,
+golesLocal:Number(document.getElementById('local'+id).value),
+golesVisitante:Number(document.getElementById('visita'+id).value)
+};
+await solicitud('/predicciones',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify(datos)
+});
+document.getElementById('mensaje').textContent='✓ Predicción guardada correctamente';
+await cargarRanking();
+}catch(e){document.getElementById('mensaje').textContent=e.message}
+}
+
+async function cargarRanking(){
+const datos=await solicitud('/ranking');
+document.getElementById('ranking').innerHTML=datos.map((u,i)=>
+`<div class="row"><span>${i+1}. ${escapar(u.nombre)}</span>
+<strong>${u.puntos} pts</strong></div>`).join('');
+}
+
+async function cargarSalas(){
+const datos=await solicitud('/salas');
+document.getElementById('salas').innerHTML=datos.length?
+datos.map(s=>`<div class="row"><span>${escapar(s.nombre)}</span>
+<small>${escapar(s.codigo)}</small></div>`).join(''):
+'<p class="muted">Aún no hay salas.</p>';
+}
+
+async function crearSala(){
+const nombre=document.getElementById('nombreSala').value.trim();
+if(!nombre)return alert('Ingresa el nombre de la sala');
+try{
+const sala=await solicitud('/salas',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+nombre,creadorId:Number(document.getElementById('usuario').value)
+})
+});
+alert('Sala creada. Código de invitación: '+sala.codigo);
+document.getElementById('nombreSala').value='';
+await cargarSalas();
+}catch(e){alert(e.message)}
+}
+
+Promise.all([cargarPartidos(),cargarRanking(),cargarSalas()])
+.catch(e=>document.getElementById('mensaje').textContent=e.message);
+</script>
+</body>
+</html>

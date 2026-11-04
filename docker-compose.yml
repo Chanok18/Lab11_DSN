@@ -1,0 +1,42 @@
+services:
+  backend1:
+    build: ./backend
+    environment:
+      - PORT=3000
+      - INSTANCE=backend-1
+    volumes:
+      - ./backend/datos.json:/app/datos.json
+    networks:
+      - champions-net
+
+  backend2:
+    build: ./backend
+    environment:
+      - PORT=3000
+      - INSTANCE=backend-2
+    volumes:
+      - ./backend/datos.json:/app/datos.json
+    networks:
+      - champions-net
+
+  frontend:
+    build: ./frontend
+    networks:
+      - champions-net
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend1
+      - backend2
+      - frontend
+    networks:
+      - champions-net
+
+networks:
+  champions-net:
+    driver: bridge

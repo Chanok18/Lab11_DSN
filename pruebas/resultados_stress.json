@@ -1,0 +1,14 @@
+{
+    "solicitudes": 1000,
+    "usuarios_simultaneos": 20,
+    "exitos": 1000,
+    "errores": 0,
+    "tiempo_total_segundos": 2.0,
+    "solicitudes_por_segundo": 500.4,
+    "latencia_promedio_ms": 38.78,
+    "latencia_maxima_ms": 798.81,
+    "distribucion": {
+        "backend-1": 500,
+        "backend-2": 500
+    }
+}

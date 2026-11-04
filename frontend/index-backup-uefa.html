@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Champions Predictor | 2026/27</title>
+<style>
+:root{
+--bg:#061722;--panel:#0a202e;--panel2:#102b3c;
+--line:#1b3b4c;--text:#edf5fb;--muted:#94aab9;
+--blue:#2479d8;--red:#ff2855;--green:#20b978
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
+header{background:#061923;border-bottom:1px solid var(--line)}
+.wrap{max-width:1250px;margin:auto;padding:0 22px}
+.top{padding:13px 0;color:#b5c8d4;font-size:12px;font-weight:bold}
+.brand{display:flex;align-items:center;gap:17px;padding:22px 0}
+.logo{width:67px;height:67px;border-radius:12px;background:#fff;color:#071a29;display:grid;place-items:center;font-size:39px}
+.brand h1{font-size:25px;margin:0 0 7px}
+.brand p{margin:0;color:#a5b9c6;font-weight:bold}
+nav{display:flex;gap:29px;overflow:auto;white-space:nowrap}
+nav button{background:none;border:0;color:#d2e0e9;font-size:12px;font-weight:bold;padding:17px 0;cursor:pointer}
+nav button.active{color:#fff;border-bottom:3px solid var(--red)}
+main{padding-top:24px!important;padding-bottom:50px!important}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:20px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:19px;margin-bottom:19px}
+h2{font-size:19px;margin:0 0 17px}
+h3{font-size:15px;margin:0 0 13px}
+.muted{color:var(--muted)}
+.note{color:#e3c477;font-size:12px}
+.match{border-bottom:1px solid var(--line);padding:15px 0}
+.match:last-child{border:0}
+.match-top{display:flex;justify-content:space-between;color:#90a9ba;font-size:12px}
+.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:15px 0}
+.team{display:flex;align-items:center;gap:9px;font-weight:bold}
+.team.right{justify-content:flex-end;text-align:right}
+.crest{width:30px;height:30px;border-radius:50%;background:#1d4058;display:grid;place-items:center;font-size:17px}
+.score-area{display:flex;gap:7px;align-items:center}
+.score{width:46px;padding:9px 4px;text-align:center;background:#061923;color:#fff;border:1px solid #355366;border-radius:5px;font-size:17px}
+button.primary{background:#1768c3;color:white;border:0;border-radius:5px;padding:11px 15px;cursor:pointer;font-weight:bold}
+button.primary:hover{background:#2886e7}
+button.primary:disabled{opacity:.5}
+input.text{background:#071b29;border:1px solid #315063;border-radius:5px;color:white;padding:11px;width:100%;margin-bottom:10px}
+select{background:#102e40;color:white;border:1px solid #315063;padding:9px;border-radius:5px}
+.ranking-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+.rank{color:#8cb8ff;font-weight:bold;margin-right:9px}
+.points{font-weight:bold;color:#fff}
+.tab-section{display:none}
+.tab-section.active{display:block}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:13px}
+th{text-align:left;color:#91a7b7;font-size:11px;background:#0d2838;padding:12px 9px}
+td{padding:10px 9px;border-bottom:1px solid #193746}
+tr:hover td{background:#102b3a}
+.position{font-weight:bold;width:35px}
+.top8{border-left:3px solid #20b978}
+.playoff{border-left:3px solid #e9b73b}
+.team-name{font-weight:bold}
+.form{display:flex;gap:3px}
+.form span{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:white}
+.G{background:#168d5b}.E{background:#7b8791}.P{background:#b83c4c}
+.badge{background:#173e5b;color:#a9d0ff;padding:5px 9px;border-radius:4px;font-size:11px}
+#mensaje{margin:12px 0;color:#6de0a3}
+footer{color:#7895a8;text-align:center;padding:25px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.brand h1{font-size:20px}.wrap{padding:0 12px}.teams{gap:5px}.team{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top">⚽ FÚTBOL　›　🇪🇺 EUROPA　›　CHAMPIONS LEAGUE</div>
+<div class="brand">
+<div class="logo">⚽</div>
+<div>
+<h1>Champions League <span style="color:#388bff">✦</span></h1>
+<p>2026/2027</p>
+<p style="font-size:11px;margin-top:8px;color:#7e9aaa">CHAMPIONS PREDICTOR · DEMOSTRACIÓN</p>
+</div>
+</div>
+<nav id="navegacion">
+<button class="active" onclick="mostrar('resumen',this)">RESUMEN</button>
+<button onclick="mostrar('partidos',this)">PARTIDOS</button>
+<button onclick="mostrar('clasificacion',this)">CLASIFICACIÓN</button>
+<button onclick="mostrar('ranking',this)">RANKING</button>
+<button onclick="mostrar('salas',this)">SALAS</button>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+<section id="resumen" class="tab-section active">
+<div class="layout">
+<div>
+<div class="panel">
+<h2>⚽ Partidos y predicciones</h2>
+<p class="note">Calendario ficticio para demostración académica.</p>
+<div id="partidosResumen"></div>
+</div>
+</div>
+<aside>
+<div class="panel">
+<h3>🏆 Ranking de participantes</h3>
+<div id="rankingResumen"></div>
+</div>
+<div class="panel">
+<h3>👤 Participante activo</h3>
+<select id="usuario" onchange="actualizarUsuario()" style="width:100%">
+<option value="1">Kevin</option>
+<option value="2">Luis</option>
+<option value="3">Ana</option>
+</select>
+</div>
+<div class="panel">
+<h3>📊 Sistema de puntos</h3>
+<p>Marcador exacto: <b>5 pts</b></p>
+<p>Ganador correcto: <b>3 pts</b></p>
+<p>Diferencia correcta: <b>2 pts</b></p>
+<p>Racha de 3: <b>+2 pts</b></p>
+<p>Anticipación: <b>+1 pt</b></p>
+</div>
+</aside>
+</div>
+</section>
+
+<section id="partidos" class="tab-section">
+<div class="panel">
+<h2>🏟️ Partidos de Champions League</h2>
+<p class="note">Encuentros de ejemplo. No representan el calendario oficial.</p>
+<div id="partidosCompleto"></div>
+</div>
+</section>
+
+<section id="clasificacion" class="tab-section">
+<div class="panel">
+<h2>Clasificación - Fase de liga</h2>
+<p class="note">Tabla de demostración basada en los datos proporcionados. No es una clasificación oficial.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th>
+<th>Goles</th><th>DG</th><th>Pts</th><th>Últimos</th>
+</tr>
+</thead>
+<tbody id="tablaClasificacion"></tbody>
+</table>
+</div>
+<p class="muted" style="font-size:12px;margin-top:18px">
+🟢 Puestos 1-8: clasificación directa a octavos ·
+🟡 Puestos 9-24: eliminatoria previa
+</p>
+</div>
+</section>
+
+<section id="ranking" class="tab-section">
+<div class="panel">
+<h2>🏆 Clasificación de participantes</h2>
+<p class="muted">Puntos acumulados por predicciones acertadas.</p>
+<div id="rankingCompleto"></div>
+</div>
+</section>
+
+<section id="salas" class="tab-section">
+<div class="panel">
+<h2>👥 Salas privadas</h2>
+<p class="muted">Crea un grupo e invita a tus amigos mediante un código.</p>
+<input class="text" id="nombreSala" placeholder="Nombre de la sala">
+<button class="primary" onclick="crearSala()">Crear sala</button>
+<div id="listaSalas" style="margin-top:20px"></div>
+</div>
+<div class="panel">
+<h3>Unirse a una sala</h3>
+<input class="text" id="codigoSala" placeholder="Código de invitación">
+<button class="primary" onclick="unirseSala()">Unirse</button>
+</div>
+</section>
+
+<div id="mensaje"></div>
+</main>
+
+<footer>Champions Predictor 2026/27 · Proyecto educativo · Sin apuestas ni dinero real</footer>
+
+<script>
+const API='/api';
+const equipos=[
+["PSG",4,4,0,0,"20:5",15,12,"GGGG"],
+["Barcelona",4,3,0,1,"14:6",8,9,"GPGG"],
+["Aston Villa",4,3,0,1,"12:6",6,9,"PGGG"],
+["Liverpool",3,3,0,0,"12:7",5,9,"GGG"],
+["Real Madrid",3,3,0,0,"10:5",5,9,"GGG"],
+["Sporting CP",4,3,0,1,"8:4",4,9,"GPGG"],
+["Real Betis",3,3,0,0,"7:4",3,9,"GGG"],
+["Bayern Múnich",4,2,2,0,"12:5",7,8,"GEEG"],
+["Arsenal",3,2,1,0,"6:2",4,7,"EGG"],
+["Stuttgart",4,2,1,1,"7:4",3,7,"PEGG"],
+["Como",3,2,0,1,"10:5",5,6,"GPG"],
+["Manchester City",3,2,0,1,"9:5",4,6,"GPG"],
+["Club Brujas",3,2,0,1,"9:6",3,6,"GGP"],
+["Inter",4,2,0,2,"8:6",2,6,"GGPP"],
+["LASK",4,2,0,2,"10:9",1,6,"GGPP"],
+["Borussia Dortmund",3,2,0,1,"5:4",1,6,"GPG"],
+["Manchester Utd",4,2,0,2,"8:8",0,6,"GPPG"],
+["Galatasaray",4,2,0,2,"8:9",-1,6,"GGPP"],
+["Roma",4,1,1,2,"10:8",2,4,"PGPE"],
+["Shakhtar",4,1,1,2,"4:4",0,4,"PPGE"],
+["PSV",3,1,1,1,"2:2",0,4,"GPE"],
+["Atlético de Madrid",4,1,1,2,"4:5",-1,4,"PEGP"],
+["Bodo/Glimt",4,1,1,2,"4:9",-5,4,"EPGP"],
+["Nápoles",3,1,0,2,"5:7",-2,3,"GPP"],
+["Sabah FC",3,1,0,2,"3:6",-3,3,"PGP"],
+["Lens",3,1,0,2,"3:7",-4,3,"PPG"],
+["AEK",3,1,0,2,"3:8",-5,3,"PPG"],
+["RB Leipzig",3,1,0,2,"3:8",-5,3,"PGP"],
+["Villarreal",4,1,0,3,"8:14",-6,3,"PPGP"],
+["Feyenoord",4,1,0,3,"4:11",-7,3,"PPGP"],
+["Fenerbahçe",3,0,2,1,"3:9",-6,2,"EPE"],
+["Slavia Praga",3,0,1,2,"4:7",-3,1,"EPP"],
+["Viking",3,0,1,2,"5:9",-4,1,"PEP"],
+["Lille",4,0,1,3,"4:10",-6,1,"EPPP"],
+["Oporto",3,0,0,3,"2:6",-4,0,"PPP"],
+["Slovan Bratislava",4,0,0,4,"1:17",-16,0,"PPPP"]
+];
+
+const escapar=s=>String(s).replace(/[&<>"']/g,c=>({
+'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+async function api(ruta,opciones){
+const r=await fetch(API+ruta,opciones);
+const d=await r.json();
+if(!r.ok)throw Error(d.error||'Error de conexión');
+return d;
+}
+function mostrar(id,boton){
+document.querySelectorAll('.tab-section').forEach(e=>e.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(e=>e.classList.remove('active'));
+boton.classList.add('active');
+}
+function usuario(){return Number(document.getElementById('usuario').value)}
+function actualizarUsuario(){document.getElementById('mensaje').textContent='Participante seleccionado correctamente'}
+function mensaje(t){document.getElementById('mensaje').textContent=t}
+
+function pintarClasificacion(){
+document.getElementById('tablaClasificacion').innerHTML=equipos.map((e,i)=>
+`<tr>
+<td class="position ${i<8?'top8':i<24?'playoff':''}">${i+1}.</td>
+<td class="team-name">⚽ ${escapar(e[0])}</td>
+<td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td>
+<td>${e[5]}</td><td>${e[6]}</td><td><b>${e[7]}</b></td>
+<td><div class="form">${e[8].split('').map(x=>`<span class="${x}">${x}</span>`).join('')}</div></td>
+</tr>`).join('');
+}
+
+async function cargarPartidos(){
+const partidos=await api('/partidos');
+const html=partidos.map(p=>{
+const abierto=Date.now()<new Date(p.fecha).getTime();
+return `<div class="match">
+<div class="match-top">
+<span>🇪🇺 CHAMPIONS LEAGUE · FASE DE LIGA</span>
+<span>${new Date(p.fecha).toLocaleString('es-PE')}</span>
+</div>
+<div class="teams">
+<div class="team"><div class="crest">⚽</div>${escapar(p.local)}</div>
+<div class="score-area">
+<input class="score" id="l${p.id}" type="number" min="0" max="30" value="1">
+<span>:</span>
+<input class="score" id="v${p.id}" type="number" min="0" max="30" value="1">
+</div>
+<div class="team right">${escapar(p.visitante)}<div class="crest">⚽</div></div>
+</div>
+<button class="primary" ${abierto?'':'disabled'}
+onclick="guardarPrediccion(${p.id})">
+${abierto?'Guardar predicción':'Predicción cerrada'}
+</button>
+</div>`;
+}).join('');
+document.getElementById('partidosResumen').innerHTML=html;
+document.getElementById('partidosCompleto').innerHTML=
+'<p class="muted">Selecciona el marcador de cada partido.</p>'+html.replaceAll(
+/id="([lv]\d+)"/g, 'id="$1-completo"'
+).replaceAll(/guardarPrediccion\((\d+)\)/g,'guardarPrediccion($1,true)');
+}
+
+async function guardarPrediccion(id,completo=false){
+try{
+const suf=completo?'-completo':'';
+const local=document.getElementById('l'+id+suf);
+const visita=document.getElementById('v'+id+suf);
+if(local.value===''||visita.value==='')throw Error('Ingresa ambos marcadores');
+const golesLocal=Number(local.value),golesVisitante=Number(visita.value);
+if(!Number.isInteger(golesLocal)||!Number.isInteger(golesVisitante)||
+golesLocal<0||golesVisitante<0)throw Error('Marcador inválido');
+await api('/predicciones',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({usuarioId:usuario(),partidoId:id,golesLocal,golesVisitante})
+});
+mensaje('✓ Predicción registrada correctamente');
+await cargarRanking();
+}catch(e){mensaje(e.message)}
+}
+
+async function cargarRanking(){
+const datos=await api('/ranking');
+const html=datos.map((u,i)=>
+`<div class="ranking-row">
+<span><span class="rank">${i+1}.</span>${escapar(u.nombre)}</span>
+<span class="points">${u.puntos} pts</span>
+</div>`).join('');
+document.getElementById('rankingResumen').innerHTML=html;
+document.getElementById('rankingCompleto').innerHTML=html;
+}
+
+async function cargarSalas(){
+const datos=await api('/salas');
+document.getElementById('listaSalas').innerHTML=datos.length?
+datos.map(s=>`<div class="ranking-row">
+<span>${escapar(s.nombre)}<br><small class="muted">${s.miembros.length} participantes</small></span>
+<span class="badge">${escapar(s.codigo)}</span>
+</div>`).join(''):
+'<p class="muted">Todavía no hay salas creadas.</p>';
+}
+
+async function crearSala(){
+const nombre=document.getElementById('nombreSala').value.trim();
+if(!nombre)return mensaje('Ingresa un nombre para la sala');
+try{
+const sala=await api('/salas',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({nombre,creadorId:usuario()})
+});
+document.getElementById('nombreSala').value='';
+mensaje('Sala creada. Código: '+sala.codigo);
+await cargarSalas();
+}catch(e){mensaje(e.message)}
+}
+
+async function unirseSala(){
+const codigo=document.getElementById('codigoSala').value.trim().toUpperCase();
+if(!codigo)return mensaje('Ingresa un código');
+try{
+await api('/salas/unirse',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({codigo,usuarioId:usuario()})
+});
+mensaje('✓ Te uniste correctamente a la sala');
+await cargarSalas();
+}catch(e){mensaje(e.message)}
+}
+
+pintarClasificacion();
+Promise.all([cargarPartidos(),cargarRanking(),cargarSalas()])
+.catch(e=>mensaje(e.message));
+</script>
+</body>
+</html>

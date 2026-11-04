@@ -1,0 +1,201 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Kevin",
+      "puntos": 0
+    },
+    {
+      "id": 2,
+      "nombre": "Luis",
+      "puntos": 0
+    },
+    {
+      "id": 3,
+      "nombre": "Ana",
+      "puntos": 0
+    }
+  ],
+  "partidos": [
+    {
+      "id": 1,
+      "local": "Real Madrid",
+      "visitante": "Bayern Munich",
+      "fecha": "2026-12-10T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 2,
+      "local": "Barcelona",
+      "visitante": "Manchester City",
+      "fecha": "2026-12-11T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 3,
+      "local": "PSG",
+      "visitante": "Liverpool",
+      "fecha": "2026-12-12T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 4,
+      "local": "Arsenal",
+      "visitante": "Inter",
+      "fecha": "2026-12-14T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 5,
+      "local": "Liverpool",
+      "visitante": "Real Madrid",
+      "fecha": "2026-12-15T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 6,
+      "local": "PSG",
+      "visitante": "Barcelona",
+      "fecha": "2026-12-16T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 7,
+      "local": "Manchester City",
+      "visitante": "Bayern Munich",
+      "fecha": "2026-12-17T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 8,
+      "local": "Borussia Dortmund",
+      "visitante": "Chelsea",
+      "fecha": "2026-12-18T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 9,
+      "local": "Atletico de Madrid",
+      "visitante": "Juventus",
+      "fecha": "2026-12-19T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 10,
+      "local": "Napoli",
+      "visitante": "Benfica",
+      "fecha": "2026-12-20T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 11,
+      "local": "Sporting CP",
+      "visitante": "Galatasaray",
+      "fecha": "2026-12-21T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    },
+    {
+      "id": 12,
+      "local": "PSV",
+      "visitante": "RB Leipzig",
+      "fecha": "2026-12-22T20:00:00Z",
+      "golesLocal": null,
+      "golesVisitante": null,
+      "demo": true
+    }
+  ],
+  "predicciones": [
+    {
+      "usuarioId": 2,
+      "partidoId": 1,
+      "golesLocal": 1,
+      "golesVisitante": 1,
+      "fechaRegistro": "2026-11-04T17:05:22.436Z"
+    },
+    {
+      "usuarioId": 2,
+      "partidoId": 2,
+      "golesLocal": 2,
+      "golesVisitante": 1,
+      "fechaRegistro": "2026-11-04T17:05:22.439Z"
+    },
+    {
+      "usuarioId": 3,
+      "partidoId": 1,
+      "golesLocal": 0,
+      "golesVisitante": 2,
+      "fechaRegistro": "2026-11-04T17:05:22.444Z"
+    },
+    {
+      "usuarioId": 3,
+      "partidoId": 3,
+      "golesLocal": 1,
+      "golesVisitante": 1,
+      "fechaRegistro": "2026-11-04T17:05:22.448Z"
+    },
+    {
+      "usuarioId": 1,
+      "partidoId": 2,
+      "golesLocal": 1,
+      "golesVisitante": 0,
+      "fechaRegistro": "2026-11-04T17:41:10.669Z"
+    },
+    {
+      "usuarioId": 1,
+      "partidoId": 1,
+      "golesLocal": 1,
+      "golesVisitante": 2,
+      "fechaRegistro": "2026-11-04T17:41:11.649Z"
+    },
+    {
+      "usuarioId": 1,
+      "partidoId": 3,
+      "golesLocal": 0,
+      "golesVisitante": 2,
+      "fechaRegistro": "2026-11-04T17:41:12.498Z"
+    }
+  ],
+  "salas": [
+    {
+      "id": "f153a819-d894-48c3-b9e1-0dac87da4b11",
+      "nombre": "Champions TECSUP",
+      "codigo": "BAD5A6BB",
+      "creadorId": 1,
+      "miembros": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "3db39577-e0e6-42e4-9064-d61acdff2544",
+      "nombre": "APUESTAS",
+      "codigo": "9EFD3A95",
+      "creadorId": 2,
+      "miembros": [
+        2
+      ]
+    }
+  ]
+}

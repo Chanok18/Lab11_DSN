@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+backend/datos.json
+backend/datos-respaldo.json
+backend/server-backup.js
+frontend/index-respaldo-diseno.html
+frontend/index-antes-ranking.html
+pruebas/resultados_stress.json
+.DS_Store
